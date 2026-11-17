@@ -46,7 +46,7 @@ Known contracts (verified addresses, BSC):
 Zero dependencies — Node.js 18+ stdlib only.
 
 ```sh
-node server.js            # PORT env, default 8080; HOST env, default 127.0.0.1
+node server.js            # PORT env, default 8080; HOST env, default 0.0.0.0 (set HOST=127.0.0.1 for local-only)
 ```
 
 ```sh

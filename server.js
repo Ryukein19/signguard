@@ -11,7 +11,7 @@ const http = require('http');
 const { analyze } = require('./guard');
 
 const PORT = parseInt(process.env.PORT || '8080', 10);
-const HOST = process.env.HOST || '127.0.0.1';
+const HOST = process.env.HOST || '0.0.0.0'; // 0.0.0.0 so hosted platforms (Railway etc.) can route to it; set HOST=127.0.0.1 for local-only
 const MAX_BODY = 64 * 1024; // 64 KiB
 const VERSION = '0.1.0';
 
