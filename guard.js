@@ -246,11 +246,20 @@ function analyze(input) {
   const to = typeof input.to === 'string' ? input.to.toLowerCase() : '';
   const data = typeof input.data === 'string' && input.data !== '' ? input.data : '0x';
   let value = 0n;
-  try {
-    value = input.value === undefined || input.value === null || input.value === ''
-      ? 0n : BigInt(input.value);
-    if (value < 0n) errors.push('value must not be negative');
-  } catch { errors.push('value must be a decimal wei string'); }
+  if (input.value === undefined || input.value === null || input.value === '') {
+    value = 0n;
+  } else {
+    try {
+      value = BigInt(input.value);
+    } catch {
+      // Tolerate decimal numbers (e.g. a probe sending value: 0.5) by
+      // flooring to whole wei instead of rejecting the whole request.
+      const n = Number(input.value);
+      if (Number.isFinite(n) && n >= 0) value = BigInt(Math.floor(n));
+      else errors.push('value must be a decimal wei string');
+    }
+  }
+  if (value < 0n) errors.push('value must not be negative');
   if (!isAddress(to)) errors.push('to must be a 0x address (40 hex chars)');
   if (!isHex(data)) errors.push('data must be 0x hex');
   if (errors.length) return { verdict: 'ERROR', score: null, errors };

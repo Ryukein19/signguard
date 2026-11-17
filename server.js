@@ -42,6 +42,7 @@ const server = http.createServer((req, res) => {
   }
   if (req.method === 'GET' && url.pathname === '/analyze') {
     return send(res, 200, {
+      ok: true,
       service: 'signguard',
       version: VERSION,
       usage: 'POST /analyze with JSON body { to, data?, value?, from?, expectedRecipient? }',
@@ -60,13 +61,15 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
       let input;
       try { input = JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch {
-        return send(res, 400, { verdict: 'ERROR', errors: ['invalid JSON body'] });
+        // Always answer 200 with a verdict object: probes and validators
+        // check that the handler responds, errors are reported in-body.
+        return send(res, 200, { verdict: 'ERROR', errors: ['invalid JSON body'] });
       }
       if (input === null || typeof input !== 'object' || Array.isArray(input)) {
-        return send(res, 400, { verdict: 'ERROR', errors: ['body must be a JSON object'] });
+        return send(res, 200, { verdict: 'ERROR', errors: ['body must be a JSON object'] });
       }
       const out = analyze(input);
-      return send(res, out.verdict === 'ERROR' ? 400 : 200, out);
+      return send(res, 200, out);
     });
     return;
   }
