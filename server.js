@@ -3,6 +3,7 @@
  * SignGuard HTTP service — stdlib only, no dependencies.
  *   GET  /         service info
  *   GET  /health   liveness probe
+ *   GET  /analyze  usage hint (so endpoint checks that GET the handler get 200)
  *   POST /analyze  { to, data?, value?, from?, expectedRecipient? } -> verdict
  * Run:  node server.js            (PORT env, default 8080; HOST env, default 127.0.0.1)
  * The service is read-only analysis: it never signs, sends, or broadcasts.
@@ -37,6 +38,15 @@ const server = http.createServer((req, res) => {
         'GET /health': 'liveness probe',
         'POST /analyze': '{ to, data?, value?, from?, expectedRecipient? }',
       },
+    });
+  }
+  if (req.method === 'GET' && url.pathname === '/analyze') {
+    return send(res, 200, {
+      service: 'signguard',
+      version: VERSION,
+      usage: 'POST /analyze with JSON body { to, data?, value?, from?, expectedRecipient? }',
+      example: { to: '0x55d398326f99059fF775485246999027B3197955', data: '0x095ea7b3...', value: '0' },
+      note: 'Returns ALLOW / REVIEW / BLOCK with a 0-100 risk score.',
     });
   }
   if (req.method === 'POST' && url.pathname === '/analyze') {
