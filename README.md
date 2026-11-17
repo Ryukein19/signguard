@@ -7,6 +7,14 @@ and a per-check breakdown.
 
 Built for the zkVerify Agent Games 2026 Season 01 — Wildcard track.
 
+## Live endpoint
+
+**https://signguard-production.up.railway.app**
+
+- `GET /health` — service status
+- `GET /analyze` — usage hint
+- `POST /analyze` — analyze a transaction (see below)
+
 ## Why this exists
 
 In November 2026 our agent wallet was drained through a wallet-signed swap on
