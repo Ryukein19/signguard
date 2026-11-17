@@ -1,0 +1,1 @@
+{"description":"SignGuard — BSC/EVM pre-signing transaction guard for BSC/EVM wallets","engines":{"node":">=18"},"license":"MIT","main":"server.js","name":"signguard","scripts":{"start":"node server.js","test":"node test-vectors.js"},"version":"0.1.0"}
