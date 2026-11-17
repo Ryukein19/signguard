@@ -16,8 +16,8 @@ Wildcard
 
 ## Submission links
 
-- Agent link (public repo): `TODO — push ~/workspace/zkverify/wildcard/zkguard/ to GitHub (user: Ryukein19) and paste the repo URL`
-- Public endpoint: `TODO — paste the public HTTPS URL once hosted (see README + endpoint note below)`
+- Agent link (public repo): https://github.com/Ryukein19/signguard (created + pushed 2026-11-17 ~09:12 WIB, commit 64e34c2, PUBLIC)
+- Public endpoint: https://signguard-production.up.railway.app (Railway, deployed 2026-11-17 ~09:16 WIB, verified live ~09:23 WIB: GET /health {"ok":true}, POST /analyze unlimited USDT approve → BLOCK 75/100)
 - Demo: `POST /analyze` examples in README.md (unlimited approve → BLOCK 75/100; router approve → ALLOW 0/100)
 
 ## Use case (what problem, who it helps, what it does)
@@ -50,7 +50,7 @@ broadcasts: it is analysis only, so it cannot move funds.
   source. Fail closed: unknown or malformed input raises the score.
 - Verified 2026-11-17: 8/8 crafted calldata vectors pass (`node
   test-vectors.js`), plus a live HTTP smoke test (`/health` OK, unlimited
-  approve → BLOCK 75/100, bad input → 400).
+  approve → BLOCK 75/100, bad input → 200 with verdict ERROR).
 
 ## zkVerify (optional)
 
